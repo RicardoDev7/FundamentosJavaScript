@@ -5,6 +5,7 @@ const c = 40; // Declare a constant
 
 //c = 50; // This will cause an error because 'c' is a constants
 
-console.log(a);
-a = 30;
-console.log(a + b);
+console.table([a, b, c]); // Display values in a table format
+a = 'Ricardo';
+b = 'Metzger';
+console.table([a, b, c]); // Display values in a table format
