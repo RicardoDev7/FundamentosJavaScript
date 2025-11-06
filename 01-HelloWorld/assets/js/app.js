@@ -1,3 +1,5 @@
+alert('Hello world from app.js');
+
 //console.log('Hello world');
 let a = 20; // Declare a variable local
 var b = 30; // Declare a variable global
@@ -9,3 +11,6 @@ console.table([a, b, c]); // Display values in a table format
 a = 'Ricardo';
 b = 'Metzger';
 console.table([a, b, c]); // Display values in a table format
+b = 'Hola de nuevo'
+
+var myName = 'Ricardo';
