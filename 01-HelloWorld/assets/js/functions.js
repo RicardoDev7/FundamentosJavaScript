@@ -1,6 +1,7 @@
 /* Funcion tradicional */
 function greeting(){
     console.log('Hello world');
+    return 1; // Agregado para demostrar el valor de retorno
 }
 
 /* Funcion anonima declarada en constante */
@@ -23,8 +24,19 @@ const greeting5 = (name) => {
     console.log('Hello world 5', name);
 }
 
+/* Funcion flecha con retorno implicito */
+const adding = (number1, number2) => number1 + number2;
+
+/* Funcion flecha sin parametros con retorno implicito */
+const getRandom = () => Math.random();
+
+
+/* Llamados a las funciones */
 greeting();
 greeting2();
 greeting3('Ricardo');
 greeting4();
 greeting5('Rosa');
+console.log('Retorno de greeting:', greeting());
+console.log('Resultado de la suma:', adding(5, 10));
+console.log('Numero aleatorio:', getRandom());
