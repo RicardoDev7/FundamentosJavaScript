@@ -9,3 +9,8 @@ console.warn('--- Usando for in ---');
 for (let index in heroes) {
     console.log(heroes[index]);
 }
+
+console.warn('--- Usando for of ---');
+for (let hero of heroes) {
+    console.log(hero);
+}
