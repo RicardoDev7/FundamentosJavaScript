@@ -8,6 +8,8 @@ const btnStartGame = document.getElementById('start-game');
 const btnAskCard = document.getElementById('ask-card');
 const smPlayer = document.getElementById('smPlayer');
 const smComputer = document.getElementById('smComputer');
+const dvPlayerCards = document.getElementById('player-cards');
+const dvComputerCards = document.getElementById('computer-cards');
 
 const createDeck = () => {
     deck = [];
@@ -36,7 +38,6 @@ const generateSpecialDeck = () => {
 const askCard = () => {
     if(deck.length === 0){
         alert('No cards in the deck');
-        throw 'No cards in the deck';
     }
     let card = deck.pop();
     return card;
@@ -54,6 +55,24 @@ const clearElements = () => {
     smPlayer.innerText = playersPoints;
     computerPoints = 0;
     smComputer.innerText = computerPoints;
+    dvPlayerCards.innerHTML = '';
+}
+
+const createCard = ( card, isPlayerDiv ) =>{
+    const imgCard = document.createElement('img');
+    imgCard.src = `assets/cards/${ card }.png`;
+    imgCard.classList.add('card');
+    isPlayerDiv ? dvPlayerCards.appendChild(imgCard) : dvComputerCards.appendChild(imgCard);
+}
+
+const validatePlayerPoints = () => {
+    if(playersPoints > 21){
+        btnAskCard.disabled = true;
+        alert('You lost the game');
+    }else if(playersPoints === 21){
+        btnAskCard.disabled = true;
+        alert('You win the game');
+    }
 }
 
 btnStartGame.addEventListener('click', () => {
@@ -66,4 +85,6 @@ btnAskCard.addEventListener('click', () => {
     let value = getCardValue( cardValue );
     playersPoints += value;
     smPlayer.innerText = playersPoints;
+    createCard(cardValue, true);
+    validatePlayerPoints();
 });
