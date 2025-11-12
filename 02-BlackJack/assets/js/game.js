@@ -3,6 +3,7 @@ const types = ['C', 'D', 'H', 'S'];
 const specials = ['A', 'J', 'Q', 'K'];
 
 const createDeck = () => {
+    deck = [];
     for(let i = 2; i <= 10; i++) {
         for(let type of types) {
             deck.push(`${i}${type}`);
@@ -13,7 +14,15 @@ const createDeck = () => {
             deck.push(`${special}${type}`);
         }
     }
-    return _.shuffle( deck );
+    deck = _.shuffle( deck );
+    return deck;
 }
 
-createDeck();
+const askCard = () => {
+    if(deck.length === 0){
+        alert('No cards in the deck');
+        throw 'No cards in the deck';
+    }
+    let card = deck.pop();
+    return `${card}.png`;
+}
