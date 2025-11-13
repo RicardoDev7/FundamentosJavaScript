@@ -1,26 +1,32 @@
-(() => {
+const myModule = (() => {
     'use strict';
 
-    let deck = [];
-    let playersPoints = 0;
-    let computerPoints = 0;
+    //#region Variables
 
-    const types = ['C', 'D', 'H', 'S'];
-    const specials = ['A', 'J', 'Q', 'K'];
-    const btnAskCard = document.getElementById('ask-card');
-    const btnStopGame = document.getElementById('stop-game');
-    const smPlayer = document.getElementById('smPlayer');
-    const smComputer = document.getElementById('smComputer');
-    const dvPlayerCards = document.getElementById('player-cards');
-    const dvComputerCards = document.getElementById('computer-cards');
-    const dvMsgGame = document.getElementById('msgGame');
+    let deck = [], playersPoints = 0, computerPoints = 0;
 
-    document.getElementById('start-game').addEventListener('click', () => {
-        createDeck();
-        initElements();
-        enabledButtons();
-    });
+    //#endregion
 
+    //#region Constants and HTML references
+
+    const types = ['C', 'D', 'H', 'S'],
+        specials = ['A', 'J', 'Q', 'K'],
+        btnAskCard = document.getElementById('ask-card'),
+        btnStopGame = document.getElementById('stop-game'),
+        smPlayer = document.getElementById('smPlayer'),
+        smComputer = document.getElementById('smComputer'),
+        dvPlayerCards = document.getElementById('player-cards'),
+        dvMsgGame = document.getElementById('msgGame'),
+        dvComputerCards = document.getElementById('computer-cards');
+    
+    //#endregion
+
+    //#region Event Listeners
+
+    document.getElementById('start-game').addEventListener('click', () => 
+        initGame()
+    );
+    
     btnAskCard.addEventListener('click', () => {
         askForGame(true);
         validatePoints();
@@ -31,12 +37,21 @@
         validateComputerPoints();
     });
 
+    //#endregion
+
+    //#region Functions
+
+    const initGame = () => {
+        deck = createDeck();
+        initElements();
+        enabledButtons();
+    }
+
     const createDeck = () => {
         deck = [];
         generateGeneralDeck();
         generateSpecialDeck();
-        deck = _.shuffle( deck );
-        return deck;
+        return _.shuffle(deck);
     }
 
     const generateGeneralDeck = () => {
@@ -146,5 +161,15 @@
             setMessage('¡No one wins the game!');
         }
     }
+
+    //#endregion
+
+    //#region Return statement
+
+    return {
+        newGame: initGame
+    }
+
+    //#endregion
 
 })();
