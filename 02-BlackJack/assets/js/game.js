@@ -11,6 +11,23 @@ const smPlayer = document.getElementById('smPlayer');
 const smComputer = document.getElementById('smComputer');
 const dvPlayerCards = document.getElementById('player-cards');
 const dvComputerCards = document.getElementById('computer-cards');
+const dvMsgGame = document.getElementById('msgGame');
+
+btnStartGame.addEventListener('click', () => {
+    createDeck();
+    initElements();
+    enabledButtons();
+});
+
+btnAskCard.addEventListener('click', () => {
+    askForGame(true);
+    validatePoints();
+});
+
+btnStopGame.addEventListener('click', () => {
+    computerTurn( playersPoints );
+    validateComputerPoints();
+});
 
 const createDeck = () => {
     deck = [];
@@ -36,9 +53,33 @@ const generateSpecialDeck = () => {
     }
 }
 
+const initElements = () => {
+    playersPoints = 0;
+    smPlayer.innerText = playersPoints;
+    computerPoints = 0;
+    smComputer.innerText = computerPoints;
+    dvPlayerCards.innerHTML = '';
+    dvComputerCards.innerHTML = '';
+    dvMsgGame.innerText = '';
+    dvMsgGame.classList = [];
+}
+
+const enabledButtons = () => {
+    btnAskCard.disabled = false;
+    btnStopGame.disabled = false;
+}
+
+const askForGame = (isPlayer) => {
+    let cardValue = askCard();
+    let value = getCardValue( cardValue );
+    let points = isPlayer ? playersPoints += value : computerPoints += value;
+    isPlayer ? smPlayer.innerText = points: smComputer.innerText = points;
+    createCard(cardValue, isPlayer);
+}
+
 const askCard = () => {
     if(deck.length === 0){
-        alert('No cards in the deck');
+        setMessage('No cards in the deck');
     }
     let card = deck.pop();
     return card;
@@ -51,15 +92,6 @@ const getCardValue = ( card ) => {
 
 const evaluateSpecialCard = ( valueCard ) => valueCard === 'A' ? 11 : 10;
 
-const clearElements = () => {
-    playersPoints = 0;
-    smPlayer.innerText = playersPoints;
-    computerPoints = 0;
-    smComputer.innerText = computerPoints;
-    dvPlayerCards.innerHTML = '';
-    dvComputerCards.innerHTML = '';
-}
-
 const createCard = ( card, isPlayerDiv ) =>{
     const imgCard = document.createElement('img');
     imgCard.src = `assets/cards/${ card }.png`;
@@ -67,48 +99,48 @@ const createCard = ( card, isPlayerDiv ) =>{
     isPlayerDiv ? dvPlayerCards.appendChild(imgCard) : dvComputerCards.appendChild(imgCard);
 }
 
-const validatePlayerPoints = () => {
+const validatePoints = () => {
     if(playersPoints > 21){
-        computerTurn( playersPoints );
-        btnAskCard.disabled = true;
-        alert('You lost the game');
+        computerWin();
+        computerTurn();
     }else if(playersPoints === 21){
-        btnAskCard.disabled = true;
-        alert('You win the game');
+        playerWin();
     }
 }
 
-const askForGame = (isPlayer) => {
-    let cardValue = askCard();
-    let value = getCardValue( cardValue );
-    let points = isPlayer ? playersPoints += value : computerPoints += value;
-    isPlayer ? smPlayer.innerText = points: smComputer.innerText = points;
-    createCard(cardValue, isPlayer);
+const computerWin = () => {
+    disabledButtons();
+    setMessage('¡Computer win the game!');
+}
+
+const disabledButtons = () => {
+    btnAskCard.disabled = true;
+    btnStopGame.disabled = true;
+}
+
+const setMessage = (message) =>{
+    dvMsgGame.classList.add('alert');
+    dvMsgGame.classList.add('alert-danger');
+    dvMsgGame.innerText = message;
+}
+
+const playerWin = () => {
+    disabledButtons();
+    setMessage('Player win the game!');
 }
 
 const computerTurn = (minimunPoints) =>{
     do{
         askForGame(false);
-    }while(computerPoints < minimunPoints && minimunPoints <= 21);
+    }while(computerPoints <= minimunPoints && minimunPoints <= 21);
 }
 
-const enabledButtons = () => {
-    btnAskCard.disabled = false;
-    btnStopGame.disabled = false;
+const validateComputerPoints = () => {
+    if(computerPoints > 21 && computerPoints > playersPoints){
+        playerWin();
+    }else if(computerPoints > playersPoints && computerPoints <= 21){
+        computerWin();
+    }else if(computerPoints === playersPoints){
+        setMessage('¡No one wins the game!');
+    }
 }
-
-btnStartGame.addEventListener('click', () => {
-    createDeck();
-    clearElements();
-    enabledButtons();
-});
-
-btnAskCard.addEventListener('click', () => {
-    askForGame(true);
-    validatePlayerPoints();
-});
-
-btnStopGame.addEventListener('click', () => {
-    btnStopGame.disabled = true;
-    computerTurn( playersPoints );
-});
