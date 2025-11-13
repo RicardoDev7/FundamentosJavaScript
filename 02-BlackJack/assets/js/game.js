@@ -6,6 +6,7 @@ const types = ['C', 'D', 'H', 'S'];
 const specials = ['A', 'J', 'Q', 'K'];
 const btnStartGame = document.getElementById('start-game');
 const btnAskCard = document.getElementById('ask-card');
+const btnStopGame = document.getElementById('stop-game');
 const smPlayer = document.getElementById('smPlayer');
 const smComputer = document.getElementById('smComputer');
 const dvPlayerCards = document.getElementById('player-cards');
@@ -56,6 +57,7 @@ const clearElements = () => {
     computerPoints = 0;
     smComputer.innerText = computerPoints;
     dvPlayerCards.innerHTML = '';
+    dvComputerCards.innerHTML = '';
 }
 
 const createCard = ( card, isPlayerDiv ) =>{
@@ -67,6 +69,7 @@ const createCard = ( card, isPlayerDiv ) =>{
 
 const validatePlayerPoints = () => {
     if(playersPoints > 21){
+        computerTurn( playersPoints );
         btnAskCard.disabled = true;
         alert('You lost the game');
     }else if(playersPoints === 21){
@@ -75,16 +78,37 @@ const validatePlayerPoints = () => {
     }
 }
 
+const askForGame = (isPlayer) => {
+    let cardValue = askCard();
+    let value = getCardValue( cardValue );
+    let points = isPlayer ? playersPoints += value : computerPoints += value;
+    isPlayer ? smPlayer.innerText = points: smComputer.innerText = points;
+    createCard(cardValue, isPlayer);
+}
+
+const computerTurn = (minimunPoints) =>{
+    do{
+        askForGame(false);
+    }while(computerPoints < minimunPoints && minimunPoints <= 21);
+}
+
+const enabledButtons = () => {
+    btnAskCard.disabled = false;
+    btnStopGame.disabled = false;
+}
+
 btnStartGame.addEventListener('click', () => {
     createDeck();
     clearElements();
+    enabledButtons();
 });
 
 btnAskCard.addEventListener('click', () => {
-    let cardValue = askCard();
-    let value = getCardValue( cardValue );
-    playersPoints += value;
-    smPlayer.innerText = playersPoints;
-    createCard(cardValue, true);
+    askForGame(true);
     validatePlayerPoints();
+});
+
+btnStopGame.addEventListener('click', () => {
+    btnStopGame.disabled = true;
+    computerTurn( playersPoints );
 });
