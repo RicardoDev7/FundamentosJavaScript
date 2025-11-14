@@ -1,4 +1,5 @@
 class People{
+    food = '';
     constructor(name, code, message){
         this.name = name;
         this.code = code;
@@ -10,13 +11,19 @@ class People{
     myMessage(){
         console.log(`${this.code} dice ${this.message}`);
     }
+    set setFavoriteFood(food){
+        this.food = food.toUpperCase();
+    }
+
+    get getFavoriteFood(){
+        return `La comida favorita de ${this.name} es ${this.food}`;
+    }
 }
 
 const spiderMan = new People('Peter Parker', 'Spiderman', 'Hello, I am Spiderman');
 const ironMan = new People('Tony Stark', 'Ironman', 'Hello, I am Ironman');
-console.log(spiderMan);
-console.log(ironMan);
 spiderMan.amI();
 spiderMan.myMessage();
-ironMan.amI();
-ironMan.myMessage();
+spiderMan.setFavoriteFood = 'Apple pie';
+console.log(spiderMan.getFavoriteFood);
+console.log(spiderMan);
