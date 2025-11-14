@@ -1,9 +1,18 @@
 class People{
+    static _count = 0;
+    static getCount(){
+        console.log(`${People._count} instancias`);
+    }
+    static setMessage(){
+        console.log(`Hola soy un método estático`);
+    }
+
     food = '';
     constructor(name, code, message){
         this.name = name;
         this.code = code;
         this.message = message;
+        People._count++;
     }
     amI(){
         console.log(`Soy ${this.name} y mi identidad es ${this.code}`);
@@ -27,3 +36,5 @@ spiderMan.myMessage();
 spiderMan.setFavoriteFood = 'Apple pie';
 console.log(spiderMan.getFavoriteFood);
 console.log(spiderMan);
+People.getCount();
+People.setMessage();
