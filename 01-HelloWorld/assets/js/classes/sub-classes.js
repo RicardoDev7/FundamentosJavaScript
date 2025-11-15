@@ -29,12 +29,19 @@ class People{
     }
 }
 
-const spiderMan = new People('Peter Parker', 'Spiderman', 'Hello, I am Spiderman');
-const ironMan = new People('Tony Stark', 'Ironman', 'Hello, I am Ironman');
-spiderMan.amI();
-spiderMan.myMessage();
-spiderMan.setFavoriteFood = 'Apple pie';
-console.log(spiderMan.getFavoriteFood);
+class Hero extends People {
+    clan = 'Sin Clan';
+    constructor(name, code, message){
+        super(name, code, message);
+        this.clan = 'The Avengers';
+    }
+
+    amI() {
+        console.log(`Soy ${this.name} y mi clan es ${this.clan}`);
+        super.amI();
+    }
+}
+
+const spiderMan = new Hero('Peter Parker', 'Spiderman', 'Hello, I am Spiderman');
 console.log(spiderMan);
-People.getCount();
-People.setMessage();
+spiderMan.amI();
