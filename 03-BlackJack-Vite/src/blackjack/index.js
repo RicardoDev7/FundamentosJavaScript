@@ -44,7 +44,7 @@ const myModule = (() => {
     //#region Functions
 
     const initGame = () => {
-        deck = createDeck();
+        deck = createDeck(types, specials);
         initElements();
         enabledButtons();
     }

@@ -1,7 +1,8 @@
 import { shuffle } from 'underscore';
 
+let deck = [];
+
 export const createDeck = (types, specials) => {
-    let deck = [];
     generateGeneralDeck(types);
     generateSpecialDeck(types, specials);
     return shuffle(deck);
