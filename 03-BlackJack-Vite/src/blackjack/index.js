@@ -1,4 +1,4 @@
-export { askCard, createDeck, getCardValue, setMessage } from './usecases/index'
+import { askCard, createDeck, getCardValue, setMessage } from './usecases/index'
 
 const myModule = (() => {
     'use strict';
