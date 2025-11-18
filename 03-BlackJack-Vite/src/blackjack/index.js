@@ -1,3 +1,4 @@
+import { askCard } from './usecases/ask-card';
 import { createDeck } from './usecases/create-deck';
 
 const myModule = (() => {
@@ -66,19 +67,11 @@ const myModule = (() => {
     }
 
     const askForGame = (isPlayer) => {
-        let cardValue = askCard();
+        let cardValue = askCard(deck);
         let value = getCardValue( cardValue );
         let points = isPlayer ? playersPoints += value : computerPoints += value;
         isPlayer ? smPlayer.innerText = points: smComputer.innerText = points;
         createCard(cardValue, isPlayer);
-    }
-
-    const askCard = () => {
-        if(deck.length === 0){
-            setMessage('No cards in the deck');
-        }
-        let card = deck.pop();
-        return card;
     }
 
     const getCardValue = ( card ) => {
