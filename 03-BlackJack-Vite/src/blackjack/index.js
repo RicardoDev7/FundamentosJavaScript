@@ -1,5 +1,7 @@
 import { askCard } from './usecases/ask-card';
 import { createDeck } from './usecases/create-deck';
+import { getCardValue } from './usecases/get-card-value';
+import { setMessage } from "./usecases/util";
 
 const myModule = (() => {
     'use strict';
@@ -67,19 +69,12 @@ const myModule = (() => {
     }
 
     const askForGame = (isPlayer) => {
-        let cardValue = askCard(deck);
+        let cardValue = askCard(deck, dvMsgGame);
         let value = getCardValue( cardValue );
         let points = isPlayer ? playersPoints += value : computerPoints += value;
         isPlayer ? smPlayer.innerText = points: smComputer.innerText = points;
         createCard(cardValue, isPlayer);
     }
-
-    const getCardValue = ( card ) => {
-        const valueCard = card.substring(0, card.length -1);
-        return ( isNaN( valueCard ) ) ? evaluateSpecialCard( valueCard ) : parseInt( valueCard );
-    }
-
-    const evaluateSpecialCard = ( valueCard ) => valueCard === 'A' ? 11 : 10;
 
     const createCard = ( card, isPlayerDiv ) =>{
         const imgCard = document.createElement('img');
@@ -99,7 +94,7 @@ const myModule = (() => {
 
     const computerWin = () => {
         disabledButtons();
-        setMessage('¡Computer win the game!');
+        setMessage('¡Computer win the game!', dvMsgGame);
     }
 
     const disabledButtons = () => {
@@ -107,15 +102,9 @@ const myModule = (() => {
         btnStopGame.disabled = true;
     }
 
-    const setMessage = (message) =>{
-        dvMsgGame.classList.add('alert');
-        dvMsgGame.classList.add('alert-danger');
-        dvMsgGame.innerText = message;
-    }
-
     const playerWin = () => {
         disabledButtons();
-        setMessage('Player win the game!');
+        setMessage('Player win the game!', dvMsgGame);
     }
 
     const computerTurn = (minimunPoints) =>{
@@ -130,7 +119,7 @@ const myModule = (() => {
         }else if(computerPoints > playersPoints && computerPoints <= 21){
             computerWin();
         }else if(computerPoints === playersPoints){
-            setMessage('¡No one wins the game!');
+            setMessage('¡No one wins the game!', dvMsgGame);
         }
     }
 
